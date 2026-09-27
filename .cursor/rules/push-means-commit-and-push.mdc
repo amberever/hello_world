@@ -1,0 +1,25 @@
+---
+description: When the user says push, git add the whole repo, commit, and push to GitHub
+alwaysApply: true
+---
+
+# Push means add, commit, and push
+
+When the user says **push** (including「推上去」「push 到 github」), that is an explicit request to publish the **entire repository**. Do not ask for confirmation before committing.
+
+From the repo root:
+
+1. `git status` and `git diff` (staged and unstaged). Review recent `git log` so the message matches this repo.
+2. `git add -A` for the whole repo, including untracked files. Leave out secrets (`.env`, credentials, keys). Warn instead of committing those.
+3. If there is anything to commit, commit it. Pass the message with a HEREDOC. One or two sentences on why the change exists.
+4. `git push` to the existing GitHub remote. If the branch has no upstream, `git push -u origin HEAD`.
+5. `git status` afterward and tell the user the commit and the remote result.
+
+If the worktree is clean, skip the commit and push any unpushed commits. If everything is already on GitHub, say so.
+
+Do not update git config, skip hooks, or force-push. If there is no git repo or no GitHub remote yet, initialize and create the GitHub repo, then push.
+
+```text
+User: push
+→ git add -A && git commit && git push
+```
